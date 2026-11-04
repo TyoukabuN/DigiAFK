@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>数码图鉴 · 怪兽放置冒险</title>
+<link rel="stylesheet" href="bundle/app.f8b2479bdb.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}main{max-width:980px;margin:auto;padding:24px}h1,h2,p{margin:0 0 12px}h1{font-size:34px}h2{font-size:18px}header{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.eyebrow{color:var(--yellow);letter-spacing:.18em;font-size:12px;font-weight:700}.muted,small{color:var(--muted)}main .btn[aria-pressed=true]{background:var(--yellow);color:#191b22}button:disabled{opacity:.5;cursor:default}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.moss-scene{position:relative;border-radius:12px;overflow:hidden;min-height:230px;background:linear-gradient(#527e82 0 44%,#547f58 44% 68%,#71985c 68%);display:flex;align-items:end;justify-content:space-around;padding:34px 10px 20px;gap:12px}.moss-scene.river{background:linear-gradient(#4e7692 0 42%,#355e62 42% 62%,#428689 62% 77%,#739d78 77%)}.fighter{position:relative;text-align:center;min-width:115px;padding:6px;background:#14251fd9;border-radius:12px}.art{width:82px;height:73px;display:block;margin:auto;filter:drop-shadow(0 6px 0 #101b1555)}.hit{animation:hit .22s}@keyframes hit{50%{transform:translateY(-8px);opacity:.55}}progress{display:block;width:100%;accent-color:var(--green);height:10px}.moss-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.entry{padding:6px 0;border-bottom:1px solid var(--line)}.log{height:132px;overflow:auto;font-size:14px}#box{max-height:200px;overflow:auto}footer{margin-top:14px;font-size:13px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:590px){main{padding:13px}.moss-grid{grid-template-columns:1fr}.moss-scene{min-height:194px}}
+
+main .topbar{justify-content:space-between}
+.moss-scene{min-height:250px;background:#527e82 url('assets/bg/scenes/01-prairie-ouverte-710x400.webp') center/cover}
+.moss-scene.river{background:#428689 url('assets/bg/scenes/04-berge-riviere-710x400.webp') center/cover}
+.art{object-fit:contain;image-rendering:pixelated}
+.placeholder{display:grid;place-items:center;font-size:42px;color:var(--yellow)}
+main a{color:var(--yellow)}
+</style>
+<main>
+<header class="topbar"><div><div class="eyebrow">DIGITAL FIELD NOTES</div><h1>数码图鉴</h1><p class="muted">带着伙伴出发，在自动战斗中发现新的数码宝贝。</p></div><div id="summary" class="chip"></div></header>
+<section id="title-screen" class="panel">
+<h2>冒险入口</h2>
+<div class="controls"><button class="btn primary" id="continue" hidden>继续冒险</button><button class="btn" id="new-game">新建冒险</button></div>
+<details><summary>玩法帮助</summary><p>选择伙伴后自动探索和战斗。胜利后有机会捕获野生数码兽，队伍满员时会送入仓库。</p></details>
+</section>
+<section id="starter" class="panel" hidden><h2>选择第一只伙伴</h2><div class="controls" id="choices"></div><button class="btn" id="back-title">返回</button></section>
+<div id="game" hidden>
+<nav class="controls" id="tabs" aria-label="游戏页面">
+<button class="btn" data-tab="adventure">冒险</button><button class="btn" data-tab="team">队伍</button>
+<button class="btn" data-tab="dex">图鉴</button><button class="btn" data-tab="shop">商店</button>
+<button class="btn" data-tab="pension">培育屋</button><button class="btn" data-tab="activities">挑战</button>
+</nav>
+<section class="panel" id="adventure" data-page>
+<p id="campaign-complete" hidden><strong>主线通关</strong> · 已击败启示录兽，可以继续探索和收集。</p>
+<div id="routes" class="controls"></div>
+<div id="scene" class="moss-scene"><div id="ally" class="fighter"></div><div id="enemy" class="fighter"></div></div>
+<div class="controls"><button class="btn" id="pause">暂停</button><button class="btn" data-speed="1">×1</button><button class="btn" data-speed="2">×2</button><button class="btn" data-speed="3">×3</button><button class="btn" id="boss">挑战首领</button></div>
+<div id="log" class="log" aria-label="冒险记录"></div>
+</section>
+<section class="panel" id="team" data-page hidden>
+<h2>队伍与仓库</h2><div id="presets" class="controls"></div><p>先选队伍成员，再选仓库成员。替换会在战斗结算后生效。</p>
+<div class="moss-grid"><div id="team-list"></div><div><label>仓库搜索 <input id="box-search"></label> <select id="box-order" aria-label="仓库排序"><option value="recent">最近</option><option value="level">等级</option><option value="name">名字</option></select><div id="box"></div></div></div>
+</section>
+<section class="panel" id="dex" data-page hidden>
+<h2>第一世代图鉴</h2><label>搜索 <input id="dex-search"></label> <select id="dex-filter" aria-label="图鉴状态"><option value="all">全部</option><option value="owned">当前持有</option><option value="seen">曾收录</option><option value="found">已见过</option><option value="missing">未收录</option></select>
+<div id="dex-list"></div>
+</section>
+<section class="panel" id="shop" data-page hidden><h2>商店与背包</h2><div id="shop-list"></div></section>
+<section class="panel" id="pension" data-page hidden><h2>培育屋</h2><div id="pension-list"></div></section>
+<section class="panel" id="activities" data-page hidden><h2>单机挑战</h2><div id="activity-list"></div></section>
+<p id="notice" role="status"></p>
+</div>
+<footer id="saveStatus">进度保存在当前浏览器。</footer>
+<footer>素材来源：<a href="https://play.pokemonshowdown.com/sprites/digimon/sprites/digimon/">数码宝贝精灵图</a> · <a href="https://pokecatch-online.netlify.app/">Poke’Catch 样式与背景</a></footer>
+</main>
+<script src="catalog.js"></script>
+<script src="game.js"></script>
+<script src="ui.js"></script>
+</html>

@@ -1,0 +1,5 @@
+/docs/research/reference-pages/
+/ref/
+/.env
+/.env.*
+!/.env.example
